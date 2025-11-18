@@ -1,0 +1,22 @@
+{
+  "name": "ecommerce-fullstack",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "db:gen-migrate:backend1": "cd product-order-service && npm run db:gen-migrate",
+    "db:gen-migrate:backend2": "cd customer-service && npm run db:gen-migrate",
+    "db:gen-migrate:all": "npm run db:gen-migrate:backend1 && npm run db:gen-migrate:backend2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abhradippaul/Ecommerce-FullStack-NestJS.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/abhradippaul/Ecommerce-FullStack-NestJS/issues"
+  },
+  "homepage": "https://github.com/abhradippaul/Ecommerce-FullStack-NestJS#readme",
+  "description": ""
+}

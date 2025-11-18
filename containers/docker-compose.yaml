@@ -1,0 +1,33 @@
+version: "3.8"
+services:
+  postgres_customer:
+    image: postgres:15.15-alpine3.22
+    container_name: postgres_customer_db
+    restart: always
+    environment:
+      POSTGRES_USER: abhra
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: customer
+    ports:
+      - "5430:5432"
+    volumes:
+      - customer_db_data:/var/lib/postgresql/data
+      - ./postgres_customer/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  postgres_product_order:
+    image: postgres:15.15-alpine3.22
+    container_name: postgres_product_order_db
+    restart: always
+    environment:
+      POSTGRES_USER: abhra
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: product
+    ports:
+      - "5431:5432"
+    volumes:
+      - product_order_db_data:/var/lib/postgresql/data
+      - ./postgres_product_order/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  customer_db_data:
+  product_order_db_data:
