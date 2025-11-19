@@ -15,7 +15,8 @@ export const drizzleProvider = [
         process.env.DATABASE_URL!,
       );
       const pool = new Pool({
-        connectionString,
+        connectionString: process.env.DATABASE_URL!,
+        port: 5430,
       });
 
       return drizzle(pool, { schema }) as NodePgDatabase<typeof schema>;

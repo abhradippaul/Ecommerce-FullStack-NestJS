@@ -12,8 +12,6 @@ CREATE TABLE IF NOT EXISTS products (
 );
 
 INSERT INTO products(name, description, price, stock) VALUES 
-  ('Wireless Mouse', 'Ergonomic wireless mouse with USB receiver', 999.00, 40),
-  ('Gaming Headset', 'Surround sound gaming headset with mic', 2499.00, 30),
   ('USB-C Charger 65W', 'Fast charging USB-C adapter for laptops and phones', 1799.00, 50),
   ('27-inch Monitor', 'Full HD IPS monitor for work and gaming', 12999.00, 12),
   ('External SSD 1TB', 'Portable high-speed USB-C SSD 1TB', 7499.00, 18),
@@ -31,4 +29,24 @@ INSERT INTO products(name, description, price, stock) VALUES
   ('RGB PC Cabinet', 'ATX mid-tower PC case with RGB fans', 4599.00, 10),
   ('Graphic Tablet', 'Drawing tablet for designers and artists', 6999.00, 9),
   ('Tripod Stand', 'Adjustable tripod stand for mobile and camera', 999.00, 27),
-  ('Ring Light 18-inch', 'LED ring light with adjustable brightness', 1799.00, 15);
+  ('Ring Light 18-inch', 'LED ring light with adjustable brightness', 1799.00, 15),
+  ('Laptop Backpack', 'Water-resistant laptop backpack up to 15.6-inch', 1999.00, 32),
+  ('Wireless Keyboard', 'Slim wireless keyboard with low-profile keys', 1799.00, 26),
+  ('HDMI Cable 2m', 'High-speed HDMI 2.1 cable 2 meters', 599.00, 60),
+  ('Portable Projector', 'Mini portable LED projector with HDMI input', 10999.00, 8),
+  ('Noise Filter Mic', 'USB condenser microphone with noise reduction', 3499.00, 14),
+  ('Smart Table Lamp', 'Dimmable LED smart lamp with app control', 2499.00, 19),
+  ('USB Hub 7-Port', 'USB 3.0 powered hub with 7 ports', 1599.00, 40),
+  ('Wi-Fi Range Extender', 'Dual band Wi-Fi range extender with WPS', 2799.00, 18),
+  ('Mechanical Keyboard', 'RGB mechanical keyboard with blue switches', 4599.00, 15),
+  ('Gaming Chair', 'High-back reclining gaming chair with headrest', 12999.00, 5),
+  ('Smartphone Gimbal', '3-axis handheld gimbal stabilizer', 6999.00, 11),
+  ('VR Headset', 'Virtual reality headset compatible with PC', 8999.00, 9),
+  ('USB Desk Fan', 'Portable USB-powered desk fan', 799.00, 34),
+  ('Cable Organizer Kit', 'Cable management kit with clips and sleeves', 499.00, 70),
+  ('Portable Monitor 15.6-inch', 'Full HD portable USB-C monitor', 11999.00, 10),
+  ('Smart Plug', 'Wi-Fi smart plug with voice assistant support', 999.00, 38),
+  ('Wireless Presenter', '2.4GHz wireless presenter with laser pointer', 1299.00, 21),
+  ('Streaming Webcam 4K', '4K UHD webcam for streaming and conferencing', 6499.00, 13),
+  ('Mechanical Pencil Stylus', '2-in-1 stylus and mechanical pencil for tablets', 899.00, 29),
+  ('Desk Mat XL', 'Extended non-slip desk mat for keyboard and mouse', 1299.00, 33);

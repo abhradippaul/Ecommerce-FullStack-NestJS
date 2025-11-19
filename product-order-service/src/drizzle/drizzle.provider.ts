@@ -11,11 +11,9 @@ export const drizzleProvider = [
     provide: DrizzleAsyncProvider,
     inject: [ConfigService],
     useFactory: async (configService: ConfigService) => {
-      const connectionString = configService.get<string>(
-        process.env.DATABASE_URL!,
-      );
       const pool = new Pool({
-        connectionString,
+        connectionString: process.env.DATABASE_URL!,
+        port: 5431,
       });
 
       return drizzle(pool, { schema }) as NodePgDatabase<typeof schema>;

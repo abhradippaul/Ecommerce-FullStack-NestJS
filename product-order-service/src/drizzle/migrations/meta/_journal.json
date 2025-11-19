@@ -8,6 +8,13 @@
       "when": 1763478655043,
       "tag": "0000_burly_iron_lad",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1763576546242,
+      "tag": "0001_curvy_anthem",
+      "breakpoints": true
     }
   ]
 }

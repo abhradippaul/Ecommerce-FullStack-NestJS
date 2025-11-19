@@ -11,6 +11,7 @@ export default {
   dialect: 'postgresql',
   dbCredentials: {
     url: process.env.DATABASE_URL!,
+    port: 5430,
   },
   verbose: true,
   strict: true,

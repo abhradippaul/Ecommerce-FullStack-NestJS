@@ -13,6 +13,7 @@ dotenv.config();
 (async () => {
   const pool = new pg.Pool({
     connectionString: process.env.DATABASE_URL,
+    port: 5430,
   });
   let db: NodePgDatabase<typeof allSchema> | null = null;
   db = drizzle(pool, {

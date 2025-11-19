@@ -7,12 +7,11 @@ services:
     environment:
       POSTGRES_USER: abhra
       POSTGRES_PASSWORD: 1234
-      POSTGRES_DB: customer
+      POSTGRES_DB: customers
     ports:
       - "5430:5432"
     volumes:
       - customer_db_data:/var/lib/postgresql/data
-      - ./postgres_customer/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   postgres_product_order:
     image: postgres:15.15-alpine3.22
@@ -21,12 +20,11 @@ services:
     environment:
       POSTGRES_USER: abhra
       POSTGRES_PASSWORD: 1234
-      POSTGRES_DB: product
+      POSTGRES_DB: products
     ports:
       - "5431:5432"
     volumes:
       - product_order_db_data:/var/lib/postgresql/data
-      - ./postgres_product_order/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   rabbitmq:
     image: rabbitmq:4.1.6-alpine
