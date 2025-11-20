@@ -33,7 +33,11 @@ export class AuthService {
       const jwtToken = request.cookies['customer-token'];
 
       if (!jwtToken) {
-        throw new NotFoundException('Token not found');
+        return {
+          isLoggedIn: false,
+          message: 'Token not found',
+          status: 404,
+        };
       }
 
       const { userId } = await this.jwtService.verify(jwtToken, {
@@ -41,28 +45,29 @@ export class AuthService {
       });
 
       if (!userId) {
-        throw new NotFoundException('User id not found');
+        return {
+          isLoggedIn: false,
+          message: 'User id not found',
+          status: 404,
+        };
       }
 
       return {
         isLoggedIn: true,
-        msg: 'User is verified',
+        message: 'User is verified',
+        status: 200,
       };
     } catch (err) {
       console.log(err);
-      if (err instanceof NotFoundException) {
-        throw err;
-      }
-      throw new InternalServerErrorException(
-        'An unexpected error occurred during user verification.',
-      );
+      return {
+        isLoggedIn: false,
+        message: 'An unexpected error occurred during user verification.',
+        status: 500,
+      };
     }
   }
 
-  async loginUser(
-    @Body() LoginDto: LoginDto,
-    @Res({ passthrough: true }) response: Response,
-  ) {
+  async loginUser(@Body() LoginDto: LoginDto, @Res() response: Response) {
     try {
       const { email, password } = LoginDto;
 
@@ -77,7 +82,10 @@ export class AuthService {
         );
 
       if (!customer.length) {
-        throw new NotFoundException('Customer not found');
+        return {
+          message: 'Customer not found',
+          status: 404,
+        };
       }
 
       const customerId = customer[0].id;
@@ -91,27 +99,30 @@ export class AuthService {
 
       response.cookie(cookieName, token, {
         httpOnly: true,
+        secure: false,
         expires: new Date(Date.now() + oneDay),
-        sameSite: 'strict',
+        sameSite: 'none',
         path: '/',
       });
 
-      return { msg: 'Login successful' };
+      return {
+        message: 'Login successfully',
+        cookieToken: token,
+        status: 200,
+      };
     } catch (err) {
       console.log(err);
-      if (err instanceof NotFoundException) {
-        throw err;
-      }
-      throw new InternalServerErrorException(
-        'An unexpected error occurred during login.',
-      );
+      return {
+        message: 'Internal server error',
+        status: 500,
+      };
     }
   }
 
   async logoutUser(@Res() response: Response) {
     response.clearCookie('customer-token');
     return response.json({
-      msg: 'Logout successful',
+      message: 'Logout successful',
     });
   }
 }

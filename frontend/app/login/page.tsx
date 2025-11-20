@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -18,14 +18,24 @@ import { useIsLoggedIn } from "@/custom-hooks/auth/isloggedin";
 export default function LoginPage() {
   const router = useRouter();
   const login = useLogIn(router);
-  // const isLoggedIn = useIsLoggedIn();
+  const isLoggedIn = useIsLoggedIn({
+    enabled: true,
+  });
+
+  // useEffect(() => {
+  //   if (isLoggedIn.isLoading) return;
+
+  //   if (isLoggedIn.data?.data?.isLoggedIn) {
+  //     router.replace("/");
+  //   }
+  // }, [isLoggedIn]);
 
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     login.mutate(form);
   }
@@ -34,10 +44,6 @@ export default function LoginPage() {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   }
-
-  // if (isLoggedIn.data?.data?.isLoggedIn) {
-  //   router.replace("/");
-  // }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-slate-900 via-slate-950 to-slate-900 px-4">
@@ -93,7 +99,7 @@ export default function LoginPage() {
               {/* Submit button */}
               <Button
                 type="submit"
-                className="w-full font-medium"
+                className="w-full font-medium cursor-pointer"
                 disabled={login.isPending}
               >
                 {login.isPending ? "Signing in..." : "Sign in"}

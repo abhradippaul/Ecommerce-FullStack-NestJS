@@ -14,12 +14,19 @@ interface UserLogInTypes {
 export function useLogIn(router: AppRouterInstance) {
   return useMutation({
     mutationFn: (body: UserLogInTypes) => {
-      return axios.post(`${BACKEND_URL}${API_VERSION}/login`, body);
+      return axios.post(`${BACKEND_URL}${API_VERSION}/auth/login`, body);
     },
-    onSuccess: () => {
-      router.push("/");
+    onSuccess: async (data) => {
+      const cookieToken = data.data.cookieToken;
+      console.log(cookieToken);
+      if (cookieToken) {
+        await axios.get("/set-cookie", {
+          params: { token: cookieToken },
+        });
+      }
     },
     onError: (err) => {
+      console.log(err);
       if (err instanceof AxiosError) {
         toast.error(err.response?.data.msg);
       } else {

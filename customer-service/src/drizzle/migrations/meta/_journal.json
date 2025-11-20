@@ -15,6 +15,13 @@
       "when": 1763551278747,
       "tag": "0001_cloudy_jigsaw",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1763645259814,
+      "tag": "0002_glamorous_night_nurse",
+      "breakpoints": true
     }
   ]
 }
