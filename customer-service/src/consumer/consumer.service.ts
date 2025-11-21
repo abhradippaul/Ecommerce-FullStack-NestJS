@@ -13,6 +13,7 @@ interface OrderCreatedMessage {
   user_id: string;
   order_id: string;
   total_price: number;
+  product_id: string;
 }
 
 @Injectable()
@@ -47,17 +48,16 @@ export class ConsumerService implements OnModuleInit {
                 .update(schema.customers)
                 .set({
                   total_orders: Number(isCustomerExist[0].total_orders) + 1,
-                  total_spent:
-                    Number(isCustomerExist[0].total_spent) +
+                  total_spend:
+                    Number(isCustomerExist[0].total_spend) +
                     content.total_price,
                 })
                 .where(eq(schema.customers.id, content.user_id))
                 .then(() => {
                   channel.ack(msg);
                   this.orderStatus.sendOrderCompleted({
-                    order_status: 'complete',
-                    user_id: content.user_id,
                     order_id: content.order_id,
+                    product_id: content.product_id,
                   });
                 })
                 .catch(() => {

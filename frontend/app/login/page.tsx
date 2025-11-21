@@ -22,13 +22,13 @@ export default function LoginPage() {
     enabled: true,
   });
 
-  // useEffect(() => {
-  //   if (isLoggedIn.isLoading) return;
+  useEffect(() => {
+    if (isLoggedIn.isLoading) return;
 
-  //   if (isLoggedIn.data?.data?.isLoggedIn) {
-  //     router.replace("/");
-  //   }
-  // }, [isLoggedIn]);
+    if (isLoggedIn.data?.data?.isLoggedIn) {
+      router.replace("/");
+    }
+  }, [isLoggedIn]);
 
   const [form, setForm] = useState({
     email: "",

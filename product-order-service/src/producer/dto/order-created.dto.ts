@@ -19,4 +19,9 @@ export class OrderCreatedDto {
   @IsNotEmpty()
   @MinLength(2)
   order_id: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(2)
+  product_id: string;
 }

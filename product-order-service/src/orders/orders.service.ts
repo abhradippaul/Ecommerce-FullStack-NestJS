@@ -10,7 +10,7 @@ import * as schema from '../drizzle/schema';
 import { DrizzleAsyncProvider } from 'src/drizzle/drizzle.provider';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 import { OrderDto } from './dto/OrderDto.dto';
-import { and, eq, gt } from 'drizzle-orm';
+import { and, desc, eq, gte } from 'drizzle-orm';
 import { ProducerService } from '../producer/producer.service';
 
 @Injectable()
@@ -34,7 +34,7 @@ export class OrdersService {
       .where(
         and(
           eq(schema.products.id, product_id),
-          gt(schema.products.stock, Number(quantity)),
+          gte(schema.products.stock, Number(quantity)),
         ),
       );
 
@@ -65,8 +65,41 @@ export class OrdersService {
       user_id: insertData.user_id,
       order_id: order[0].id,
       total_price: insertData.total_price,
+      product_id: insertData.product_id,
     });
 
     return { msg: 'Order created successfully' };
+  }
+
+  async orderHistory(userId: string) {
+    try {
+      const historyList = await this.db
+        .select({
+          order_id: schema.orders.id,
+          status: schema.orders.status,
+          quantity: schema.orders.quantity,
+          product_id: schema.orders.product_id,
+          order_creation_at: schema.orders.created_at,
+          product_name: schema.products.name,
+          product_description: schema.products.description,
+          product_price: schema.products.price,
+        })
+        .from(schema.orders)
+        .where(eq(schema.orders.user_id, userId))
+        .innerJoin(
+          schema.products,
+          eq(schema.products.id, schema.orders.product_id),
+        )
+        .orderBy(desc(schema.orders.created_at));
+
+      return {
+        message: 'Order fetched successfully',
+        status: 200,
+        historyList,
+      };
+    } catch (err) {
+      console.log(err);
+      return { message: 'Failed to fetch order history', status: 500 };
+    }
   }
 }

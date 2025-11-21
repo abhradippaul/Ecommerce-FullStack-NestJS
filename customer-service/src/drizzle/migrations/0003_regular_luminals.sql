@@ -1,0 +1,1 @@
+ALTER TABLE "customers" RENAME COLUMN "total_spent" TO "total_spend";

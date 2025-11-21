@@ -24,4 +24,9 @@ export class AuthController {
   logoutUser(@Res() response: Response) {
     return this.appService.logoutUser(response);
   }
+
+  @Get('/customer-info')
+  customerInfo(@Req() req: Request) {
+    return this.appService.customerInfo(req);
+  }
 }

@@ -1,3 +1,4 @@
+import { getQueryClient } from "@/providers/queryclient-provider";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
@@ -11,6 +12,8 @@ interface UserLogInTypes {
   password: string;
 }
 
+const queryClient = getQueryClient();
+
 export function useLogIn(router: AppRouterInstance) {
   return useMutation({
     mutationFn: (body: UserLogInTypes) => {
@@ -18,11 +21,15 @@ export function useLogIn(router: AppRouterInstance) {
     },
     onSuccess: async (data) => {
       const cookieToken = data.data.cookieToken;
-      console.log(cookieToken);
       if (cookieToken) {
-        await axios.get("/set-cookie", {
-          params: { token: cookieToken },
-        });
+        axios
+          .get("/set-cookie", {
+            params: { token: cookieToken },
+          })
+          .then(() => {
+            queryClient.invalidateQueries({ queryKey: ["isLoggedIn"] });
+            router.replace("/");
+          });
       }
     },
     onError: (err) => {

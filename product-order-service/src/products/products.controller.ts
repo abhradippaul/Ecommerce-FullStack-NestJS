@@ -6,7 +6,7 @@ export class ProductsController {
   constructor(private readonly productService: ProductsService) {}
 
   @Get()
-  uploadData() {
+  getProducts() {
     return this.productService.getProducts();
   }
 }

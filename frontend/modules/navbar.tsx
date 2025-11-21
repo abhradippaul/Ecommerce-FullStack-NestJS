@@ -1,13 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { useLogOut } from "@/custom-hooks/auth/logout";
 
 export function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
+  const logout = useLogOut(router);
 
   const links = [
+    { href: "/products", label: "Products" },
     { href: "/orders", label: "Orders" },
     { href: "/account", label: "Account" },
   ];
@@ -40,6 +44,18 @@ export function Navbar() {
             );
           })}
         </div>
+
+        <Link
+          href="/login"
+          onClick={() => {
+            logout.mutate();
+          }}
+          className="flex items-center gap-2"
+        >
+          <span className="text-xl font-semibold tracking-tight text-white">
+            Logout
+          </span>
+        </Link>
       </nav>
     </header>
   );

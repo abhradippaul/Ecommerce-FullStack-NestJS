@@ -5,10 +5,11 @@ import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 import { DrizzleAsyncProvider } from 'src/drizzle/drizzle.provider';
 import * as schema from '../drizzle/schema';
 import { ConfirmChannel } from 'amqplib';
-import { eq } from 'drizzle-orm';
+import { eq, sql } from 'drizzle-orm';
 
 interface OrderStatusMessage {
   order_id: string;
+  product_id: string;
 }
 
 @Injectable()
@@ -33,15 +34,24 @@ export class ConsumerService implements OnModuleInit {
             const content = JSON.parse(
               message.content.toString(),
             ) as OrderStatusMessage;
-            console.log(content);
             this.db
               .update(schema.orders)
               .set({
                 status: 'completed',
               })
               .where(eq(schema.orders.id, content.order_id))
-              .then(() => {
-                channel.ack(message);
+              .returning({ quantity: schema.orders.quantity })
+              .then((data) => {
+                this.db
+                  .update(schema.products)
+                  .set({
+                    stock: sql`${schema.products.stock} - ${data[0].quantity}`,
+                  })
+                  .where(eq(schema.products.id, content.product_id))
+                  .then(() => {
+                    console.log('Stock updated');
+                    channel.ack(message);
+                  });
               });
           }
         });

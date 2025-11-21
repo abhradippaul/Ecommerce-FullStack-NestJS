@@ -15,6 +15,20 @@
       "when": 1763576546242,
       "tag": "0001_curvy_anthem",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1763727187258,
+      "tag": "0002_busy_blockbuster",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1763732505764,
+      "tag": "0003_acoustic_whizzer",
+      "breakpoints": true
     }
   ]
 }

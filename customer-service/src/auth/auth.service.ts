@@ -52,9 +52,23 @@ export class AuthService {
         };
       }
 
+      const isUserExist = await this.db
+        .select()
+        .from(schema.customers)
+        .where(eq(schema.customers.id, userId));
+
+      if (!isUserExist.length) {
+        return {
+          isLoggedIn: false,
+          message: 'User not exist',
+          status: 404,
+        };
+      }
+
       return {
         isLoggedIn: true,
         message: 'User is verified',
+        id: isUserExist[0].id,
         status: 200,
       };
     } catch (err) {
@@ -124,5 +138,55 @@ export class AuthService {
     return response.json({
       message: 'Logout successful',
     });
+  }
+
+  async customerInfo(@Req() request: Request) {
+    try {
+      const jwtToken = request.cookies['customer-token'];
+
+      if (!jwtToken) {
+        return {
+          isLoggedIn: false,
+          message: 'Token not found',
+          status: 404,
+        };
+      }
+
+      const { userId } = await this.jwtService.verify(jwtToken, {
+        secret: this.jwtSecret,
+      });
+
+      if (!userId) {
+        return {
+          message: 'User id not found',
+          status: 404,
+        };
+      }
+
+      const isUserExist = await this.db
+        .select()
+        .from(schema.customers)
+        .where(eq(schema.customers.id, userId));
+
+      if (!isUserExist.length) {
+        return {
+          isLoggedIn: false,
+          message: 'Customer not exist',
+          status: 404,
+        };
+      }
+
+      return {
+        message: 'Customer fetched successfully',
+        status: 200,
+        data: isUserExist[0],
+      };
+    } catch (err) {
+      console.log(err);
+      return {
+        message: 'Internal server error',
+        status: 500,
+      };
+    }
   }
 }
