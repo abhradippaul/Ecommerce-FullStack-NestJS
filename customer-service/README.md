@@ -39,25 +39,32 @@ src/
  ├── auth/
  │   ├── auth.controller.ts
  │   ├── auth.service.ts
+ │   ├── auth.module.ts
  │   └── dto/
  │
- ├── rabbitmq/
- │   ├── consumer.service.ts
+ ├── producer/
+ │   ├── producer.module.ts
  │   └── producer.service.ts
+ |
+ ├── consumer/
+ │   ├── consumer.module.ts
+ │   └── consumer.service.ts
  │
  ├── drizzle/
  │   ├── schema.ts
+ │   ├── migrate.ts
  │   ├── migrations/
  │   └── drizzle.config.ts
- │
- ├── customer/
- │   └── customer.service.ts
+ |
+ ├── seed/
+ │   ├── seed.module.ts
+ │   └── seed.service.ts
  │
  ├── main.ts
+ ├── app.controller.ts
+ ├── app.service.ts
  └── app.module.ts
 
-scripts/
- └── seed.ts
 ```
 
 ## Setup Instructions
@@ -83,6 +90,7 @@ Create a .env file:
 DATABASE_URL=postgres://user:password@localhost:5432/customer
 JWT_SECRET=your_jwt_secret
 RABBITMQ_URL=amqp://localhost
+PORT=
 ```
 
 ### Generate & Run Drizzle Migrations
@@ -109,8 +117,16 @@ npm run db:migrate
 
 This enables loose coupling and horizontal scalability across microservices.
 
-```
-login
+## API Endpoints
 
+- GET /api/v1 -> Confirms that backend service is running
+- POST /api/v1/auth/verify -> Checks if the customer is logged in by verifying JWT.
+- POST /api/v1/auth/login -> Authenticates customer credentials and returns JWT.
+- POST /api/v1/auth/logout -> Clears session token and logs out user.
+- POST /api/v1/auth/logout -> Clears session token and logs out user.
 
+```bash
+# Running customer-service
+cd customer-service
+npm run start:dev
 ```
